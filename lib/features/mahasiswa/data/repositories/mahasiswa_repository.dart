@@ -1,31 +1,86 @@
 import '../models/mahasiswa_model.dart';
 
 class MahasiswaRepository {
-  Future<List<MahasiswaModel>> getMahasiswaList() async {
-    await Future.delayed(const Duration(seconds: 1)); // Simulasi loading
+  final List<MahasiswaModel> _dummyData = [
+    MahasiswaModel(
+      nama: "Ahmad Fadli Ramadhan",
+      nim: "22010101",
+      email: "ahmad.fadli@st.unair.ac.id",
+      jurusan: "Teknik Informatika",
+      angkatan: "2022",
+    ),
+    MahasiswaModel(
+      nama: "Siti Rahmawati",
+      nim: "22010102",
+      email: "siti.rahmawati@st.unair.ac.id",
+      jurusan: "Sistem Informasi",
+      angkatan: "2022",
+    ),
+    MahasiswaModel(
+      nama: "Rizky Pratama",
+      nim: "22010103",
+      email: "rizky.pratama@st.unair.ac.id",
+      jurusan: "Sains Data",
+      angkatan: "2022",
+    ),
+    MahasiswaModel(
+      nama: "Dinda Maharani Putri",
+      nim: "22010104",
+      email: "dinda.maharani@st.unair.ac.id",
+      jurusan: "Teknik Informatika",
+      angkatan: "2022",
+    ),
+    MahasiswaModel(
+      nama: "Muhammad Iqbal",
+      nim: "22010105",
+      email: "m.iqbal@st.unair.ac.id",
+      jurusan: "Sistem Informasi",
+      angkatan: "2022",
+    ),
+    MahasiswaModel(
+      nama: "Nabila Zahra",
+      nim: "22010106",
+      email: "nabila.zahra@st.unair.ac.id",
+      jurusan: "Sains Data",
+      angkatan: "2022",
+    ),
+    MahasiswaModel(
+      nama: "Fajar Nugroho",
+      nim: "22010107",
+      email: "fajar.nugroho@st.unair.ac.id",
+      jurusan: "Teknik Informatika",
+      angkatan: "2022",
+    ),
+    MahasiswaModel(
+      nama: "Rina Kartika Sari",
+      nim: "22010108",
+      email: "rina.kartika@st.unair.ac.id",
+      jurusan: "Sistem Informasi",
+      angkatan: "2022",
+    ),
+    MahasiswaModel(
+      nama: "Bagus Saputra",
+      nim: "22010109",
+      email: "bagus.saputra@st.unair.ac.id",
+      jurusan: "Teknik Informatika",
+      angkatan: "2022",
+    ),
+    MahasiswaModel(
+      nama: "Lestari Ayu Wulandari",
+      nim: "22010110",
+      email: "lestari.ayu@st.unair.ac.id",
+      jurusan: "Sains Data",
+      angkatan: "2022",
+    ),
+  ];
 
-    return [
-      MahasiswaModel(
-        nama: 'Ahmad Faisal',
-        nim: '1029384756',
-        email: 'ahmad.faisal@gmail.com',
-        jurusan: 'Sistem Informasi',
-        angkatan: '2023',
-      ),
-      MahasiswaModel(
-        nama: 'Budi Santoso',
-        nim: '5647382910',
-        email: 'budi.santoso@gmail.com',
-        jurusan: 'Teknik Informatika',
-        angkatan: '2022',
-      ),
-      MahasiswaModel(
-        nama: 'Citra Lestari',
-        nim: '9876543210',
-        email: 'citra.lestari@gmail.com',
-        jurusan: 'Sistem Informasi',
-        angkatan: '2023',
-      ),
-    ];
+  Future<List<MahasiswaModel>> fetchMahasiswa() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return _dummyData;
+  }
+
+  Future<List<MahasiswaModel>> fetchMahasiswaAktif() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return _dummyData.take(6).toList();
   }
 }

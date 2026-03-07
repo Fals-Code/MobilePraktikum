@@ -1,71 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/mahasiswa_provider.dart';
-import '../widgets/mahasiswa_widget.dart';
 
 class MahasiswaPage extends ConsumerWidget {
   const MahasiswaPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mahasiswaState = ref.watch(mahasiswaNotifierProvider);
+    final mahasiswaAsync = ref.watch(mahasiswaFutureProvider);
 
     return Scaffold(
-      backgroundColor: Colors.grey[100], // Background yang bersih
       appBar: AppBar(
-        title: const Text('Data Mahasiswa', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black87,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh_rounded),
-            onPressed: () {
-              ref.read(mahasiswaNotifierProvider.notifier).refresh();
-            },
+        title: const Text("Data Mahasiswa", style: TextStyle(fontWeight: FontWeight.bold)),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "Cari Nama atau NIM...",
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                filled: true,
+                fillColor: Colors.grey[100],
+              ),
+            ),
+          ),
+          Expanded(
+            child: mahasiswaAsync.when(
+              data: (list) => ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  final mhs = list[index];
+                  return Card(
+                    elevation: 0,
+                    margin: const EdgeInsets.only(bottom: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: Colors.grey.shade200),
+                    ),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.blue.shade50,
+                        child: Text(mhs.nama[0], style: const TextStyle(color: Colors.blue)),
+                      ),
+                      title: Text(mhs.nama, style: const TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text("${mhs.nim} • ${mhs.jurusan}"),
+                      trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+                    ),
+                  );
+                },
+              ),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => Center(child: Text("Error: $err")),
+            ),
           ),
         ],
-      ),
-      body: mahasiswaState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.error_outline, size: 48, color: Colors.red),
-              const SizedBox(height: 16),
-              Text('Gagal memuat data: ${error.toString()}'),
-              ElevatedButton(
-                onPressed: () => ref.read(mahasiswaNotifierProvider.notifier).refresh(),
-                child: const Text('Coba Lagi'),
-              )
-            ],
-          ),
-        ),
-        data: (mahasiswaList) {
-          return RefreshIndicator(
-            onRefresh: () async {
-              await ref.read(mahasiswaNotifierProvider.notifier).refresh();
-            },
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: mahasiswaList.length,
-              itemBuilder: (context, index) {
-                final mahasiswa = mahasiswaList[index];
-                // Menggunakan gradien biru untuk semua kartu (Bisa disesuaikan)
-                final gradientColors = [Color(0xFF4facfe), Color(0xFF00f2fe)];
-
-                return ModernMahasiswaCard(
-                  mahasiswa: mahasiswa,
-                  gradientColors: gradientColors,
-                  onTap: () {
-                    // Tindakan jika kartu diklik (misal: masuk ke detail)
-                  },
-                );
-              },
-            ),
-          );
-        },
       ),
     );
   }
