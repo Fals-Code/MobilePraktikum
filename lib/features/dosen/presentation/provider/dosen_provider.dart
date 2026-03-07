@@ -4,6 +4,5 @@ import '../../data/repositories/dosen_repository.dart';
 
 final dosenRepositoryProvider = Provider((ref) => DosenRepository());
 
-final dosenFutureProvider = FutureProvider<List<DosenModel>>((ref) {
-  return ref.watch(dosenRepositoryProvider).fetchDosen();
-});
+final dosenFutureProvider = FutureProvider<List<DosenModel>>((ref) =>
+    ref.watch(dosenRepositoryProvider).fetchDosen());

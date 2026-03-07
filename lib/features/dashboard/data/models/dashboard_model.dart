@@ -13,15 +13,13 @@ class DashboardStats {
     required this.isIncrease,
   });
 
-  factory DashboardStats.fromJson(Map<String, dynamic> json) {
-    return DashboardStats(
-      title: json['title'] ?? '',
-      value: json['value'] ?? '0',
-      subtitle: json['subtitle'] ?? '',
-      percentage: (json['percentage'] ?? 0.0).toDouble(),
-      isIncrease: json['isIncrease'] ?? true,
-    );
-  }
+  factory DashboardStats.fromJson(Map<String, dynamic> json) => DashboardStats(
+    title: json['title'] ?? '',
+    value: json['value'] ?? '0',
+    subtitle: json['subtitle'] ?? '',
+    percentage: (json['percentage'] ?? 0.0).toDouble(),
+    isIncrease: json['isIncrease'] ?? true,
+  );
 
   Map<String, dynamic> toJson() => {
     'title': title,
@@ -43,17 +41,15 @@ class DashboardData {
     required this.lastUpdate,
   });
 
-  factory DashboardData.fromJson(Map<String, dynamic> json) {
-    return DashboardData(
-      stats: (json['stats'] as List?)
-          ?.map((e) => DashboardStats.fromJson(e))
-          .toList() ??
-          [],
-      userName: json['userName'] ?? 'User',
-      lastUpdate: DateTime.parse(
-          json['lastUpdate'] ?? DateTime.now().toString()),
-    );
-  }
+  factory DashboardData.fromJson(Map<String, dynamic> json) => DashboardData(
+    stats: (json['stats'] as List?)
+        ?.map((e) => DashboardStats.fromJson(e))
+        .toList() ??
+        [],
+    userName: json['userName'] ?? 'User',
+    lastUpdate:
+    DateTime.parse(json['lastUpdate'] ?? DateTime.now().toString()),
+  );
 
   Map<String, dynamic> toJson() => {
     'stats': stats.map((e) => e.toJson()).toList(),

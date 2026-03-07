@@ -13,13 +13,11 @@ class DosenModel {
     this.jabatan = 'Dosen Tetap',
   });
 
-  factory DosenModel.fromJson(Map<String, dynamic> json) {
-    return DosenModel(
-      nama: json['nama'] ?? '',
-      nidn: json['nidn'] ?? '',
-      foto: json['foto'] ?? '',
-      bidangKeahlian: json['bidangKeahlian'] ?? '',
-      jabatan: json['jabatan'] ?? 'Dosen Tetap',
-    );
-  }
+  factory DosenModel.fromJson(Map<String, dynamic> json) => DosenModel(
+    nama: json['nama'] ?? '',
+    nidn: json['nidn'] ?? '',
+    foto: json['foto'] ?? '',
+    bidangKeahlian: json['bidangKeahlian'] ?? '',
+    jabatan: json['jabatan'] ?? 'Dosen Tetap',
+  );
 }

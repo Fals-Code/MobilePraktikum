@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../../../core/theme/app_theme.dart';
+import '../../../../../core/theme/app_theme.dart';
 
 class QuickInfoCard extends StatelessWidget {
   final IconData icon;
@@ -29,12 +29,9 @@ class QuickInfoCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: 40, height: 40,
             decoration: BoxDecoration(
-              color: iconBg,
-              borderRadius: BorderRadius.circular(10),
-            ),
+                color: iconBg, borderRadius: BorderRadius.circular(10)),
             child: Icon(icon, color: iconColor, size: 20),
           ),
           const SizedBox(width: 14),
@@ -44,8 +41,7 @@ class QuickInfoCard extends StatelessWidget {
               children: [
                 Text(title,
                     style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 14, fontWeight: FontWeight.w600,
                         color: AppTheme.neutral900)),
                 const SizedBox(height: 2),
                 Text(subtitle,
