@@ -2,17 +2,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/mahasiswa_model.dart';
 import '../../data/repositories/mahasiswa_repository.dart';
 
-// Provider untuk Repository
-final mahasiswaRepositoryProvider = Provider((ref) => MahasiswaRepository());
+final mahasiswaRepositoryProvider =
+Provider((ref) => MahasiswaRepository());
 
-// Provider untuk Semua Mahasiswa
-final mahasiswaFutureProvider = FutureProvider<List<MahasiswaModel>>((ref) async {
-  final repository = ref.watch(mahasiswaRepositoryProvider);
-  return repository.fetchMahasiswa();
+final mahasiswaFutureProvider = FutureProvider<List<MahasiswaModel>>((ref) {
+  return ref.watch(mahasiswaRepositoryProvider).fetchMahasiswa();
 });
 
-// Provider untuk Mahasiswa Aktif (Ini yang menyebabkan error jika belum ada)
-final mahasiswaAktifProvider = FutureProvider<List<MahasiswaModel>>((ref) async {
-  final repository = ref.watch(mahasiswaRepositoryProvider);
-  return repository.fetchMahasiswaAktif();
+final mahasiswaAktifProvider = FutureProvider<List<MahasiswaModel>>((ref) {
+  return ref.watch(mahasiswaRepositoryProvider).fetchMahasiswaAktif();
+});
+
+final mahasiswaSearchProvider = StateProvider<String>((ref) => '');
+
+final filteredMahasiswaProvider = Provider<AsyncValue<List<MahasiswaModel>>>((ref) {
+  final query = ref.watch(mahasiswaSearchProvider).toLowerCase();
+  final asyncList = ref.watch(mahasiswaFutureProvider);
+  return asyncList.whenData((list) => query.isEmpty
+      ? list
+      : list
+      .where((m) =>
+  m.nama.toLowerCase().contains(query) ||
+      m.nim.toLowerCase().contains(query))
+      .toList());
 });

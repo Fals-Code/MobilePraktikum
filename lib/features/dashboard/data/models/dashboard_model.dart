@@ -5,7 +5,7 @@ class DashboardStats {
   final double percentage;
   final bool isIncrease;
 
-  DashboardStats({
+  const DashboardStats({
     required this.title,
     required this.value,
     required this.subtitle,
@@ -15,23 +15,21 @@ class DashboardStats {
 
   factory DashboardStats.fromJson(Map<String, dynamic> json) {
     return DashboardStats(
-      title: json['title'] ?? "",
-      value: json['value'] ?? "0",
-      subtitle: json['subtitle'] ?? "",
+      title: json['title'] ?? '',
+      value: json['value'] ?? '0',
+      subtitle: json['subtitle'] ?? '',
       percentage: (json['percentage'] ?? 0.0).toDouble(),
       isIncrease: json['isIncrease'] ?? true,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'title': title,
-      'value': value,
-      'subtitle': subtitle,
-      'percentage': percentage,
-      'isIncrease': isIncrease,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+    'title': title,
+    'value': value,
+    'subtitle': subtitle,
+    'percentage': percentage,
+    'isIncrease': isIncrease,
+  };
 }
 
 class DashboardData {
@@ -39,7 +37,7 @@ class DashboardData {
   final String userName;
   final DateTime lastUpdate;
 
-  DashboardData({
+  const DashboardData({
     required this.stats,
     required this.userName,
     required this.lastUpdate,
@@ -49,30 +47,28 @@ class DashboardData {
     return DashboardData(
       stats: (json['stats'] as List?)
           ?.map((e) => DashboardStats.fromJson(e))
-          .toList() ?? [],
+          .toList() ??
+          [],
       userName: json['userName'] ?? 'User',
       lastUpdate: DateTime.parse(
           json['lastUpdate'] ?? DateTime.now().toString()),
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'stats': stats.map((e) => e.toJson()).toList(),
-      'userName': userName,
-      'lastUpdate': lastUpdate.toIso8601String(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+    'stats': stats.map((e) => e.toJson()).toList(),
+    'userName': userName,
+    'lastUpdate': lastUpdate.toIso8601String(),
+  };
 
   DashboardData copyWith({
     List<DashboardStats>? stats,
     String? userName,
     DateTime? lastUpdate,
-  }) {
-    return DashboardData(
-      stats: stats ?? this.stats,
-      userName: userName ?? this.userName,
-      lastUpdate: lastUpdate ?? this.lastUpdate,
-    );
-  }
+  }) =>
+      DashboardData(
+        stats: stats ?? this.stats,
+        userName: userName ?? this.userName,
+        lastUpdate: lastUpdate ?? this.lastUpdate,
+      );
 }

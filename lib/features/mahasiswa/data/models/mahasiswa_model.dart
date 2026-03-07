@@ -5,7 +5,7 @@ class MahasiswaModel {
   final String jurusan;
   final String angkatan;
 
-  MahasiswaModel({
+  const MahasiswaModel({
     required this.nama,
     required this.nim,
     required this.email,
@@ -23,13 +23,11 @@ class MahasiswaModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'nama': nama,
-      'nim': nim,
-      'email': email,
-      'jurusan': jurusan,
-      'angkatan': angkatan,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+    'nama': nama,
+    'nim': nim,
+    'email': email,
+    'jurusan': jurusan,
+    'angkatan': angkatan,
+  };
 }
