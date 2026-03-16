@@ -16,16 +16,24 @@ class DosenCard extends StatelessWidget {
         leading: CircleAvatar(
           radius: 30,
           backgroundColor: Colors.blue.shade100,
-          child: const Icon(Icons.person, color: Colors.blue),
+          child: Text(
+            dosen.name.substring(0, 1).toUpperCase(),
+            style: const TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
         ),
         title: Text(
-          dosen.nama,
+          dosen.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("NIDN: ${dosen.nidn}"),
+            Text('@${dosen.username}'),
+            Text(dosen.email),
             const SizedBox(height: 4),
           ],
         ),

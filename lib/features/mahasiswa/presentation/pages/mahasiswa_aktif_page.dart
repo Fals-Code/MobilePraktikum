@@ -15,9 +15,9 @@ class MahasiswaAktifPage extends ConsumerWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // ── Header ───────────────────────────────────
+            // ── Header ──────────────────────────────────────
             Container(
-              color: AppTheme.white,
+              color:   AppTheme.white,
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,42 +27,44 @@ class MahasiswaAktifPage extends ConsumerWidget {
                     children: [
                       const Text('Mahasiswa Aktif',
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w700,
-                              color: AppTheme.neutral900)),
+                              fontSize:   20,
+                              fontWeight: FontWeight.w700,
+                              color:      AppTheme.neutral900)),
                       aktifAsync.maybeWhen(
                         data: (list) => Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 4),
                           decoration: BoxDecoration(
-                              color: AppTheme.successLight,
+                              color:        AppTheme.successLight,
                               borderRadius: BorderRadius.circular(20)),
                           child: Text('${list.length} aktif',
                               style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w600,
-                                  color: AppTheme.success)),
+                                  fontSize:   12,
+                                  fontWeight: FontWeight.w600,
+                                  color:      AppTheme.success)),
                         ),
                         orElse: () => const SizedBox.shrink(),
                       ),
                     ],
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    'Semester Genap 2024/2025',
-                    style: TextStyle(fontSize: 13, color: AppTheme.neutral500),
-                  ),
+                  const Text('Semester Genap 2024/2025',
+                      style: TextStyle(
+                          fontSize: 13, color: AppTheme.neutral500)),
                 ],
               ),
             ),
 
-            // ── Status Banner ────────────────────────────
+            // ── Status Banner ────────────────────────────────
             aktifAsync.maybeWhen(
               data: (list) => Container(
-                margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                margin:  const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppTheme.successLight,
+                  color:        AppTheme.successLight,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppTheme.success.withOpacity(0.3)),
+                  border: Border.all(
+                      color: AppTheme.success.withOpacity(0.3)),
                 ),
                 child: Row(
                   children: [
@@ -73,15 +75,17 @@ class MahasiswaAktifPage extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('${list.length} mahasiswa berstatus aktif',
-                              style: const TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.w600,
-                                  color: AppTheme.success)),
+                          Text(
+                            '${list.length} post dari API /posts',
+                            style: const TextStyle(
+                                fontSize:   13,
+                                fontWeight: FontWeight.w600,
+                                color:      AppTheme.success),
+                          ),
                           const Text(
-                            'Terdaftar dan memenuhi syarat akademik',
+                            'Data diambil dari jsonplaceholder.typicode.com',
                             style: TextStyle(
-                                fontSize: 11,
-                                color: AppTheme.success),
+                                fontSize: 11, color: AppTheme.success),
                           ),
                         ],
                       ),
@@ -92,122 +96,152 @@ class MahasiswaAktifPage extends ConsumerWidget {
               orElse: () => const SizedBox.shrink(),
             ),
 
-            // ── List ─────────────────────────────────────
+            // ── List ────────────────────────────────────────
             Expanded(
               child: aktifAsync.when(
                 loading: () => ListView.separated(
                   padding: const EdgeInsets.all(16),
                   itemCount: 5,
-                  separatorBuilder: (_, __) => const SizedBox(height: 8),
+                  separatorBuilder: (_, __) =>
+                  const SizedBox(height: 8),
                   itemBuilder: (_, __) => Container(
-                      height: 76,
-                      decoration: BoxDecoration(
-                          color: AppTheme.neutral100,
-                          borderRadius: BorderRadius.circular(12))),
+                    height: 80,
+                    decoration: BoxDecoration(
+                        color:        AppTheme.neutral100,
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
                 ),
                 error: (err, _) => Center(
-                    child: Text('Error: $err',
-                        style: const TextStyle(color: AppTheme.neutral500))),
-                data: (list) => ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: list.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 8),
-                  itemBuilder: (_, index) {
-                    final mhs = list[index];
-                    final initials = mhs.nama.trim().split(' ').take(2)
-                        .map((w) => w.isNotEmpty ? w[0] : '').join().toUpperCase();
-
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 12),
-                      decoration: BoxDecoration(
-                        color: AppTheme.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppTheme.neutral100),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.error_outline,
+                          size: 52, color: Colors.red),
+                      const SizedBox(height: 12),
+                      Text('Error: $err',
+                          style: const TextStyle(
+                              color: AppTheme.neutral500)),
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        onPressed: () =>
+                            ref.refresh(mahasiswaAktifProvider),
+                        icon:  const Icon(Icons.refresh),
+                        label: const Text('Coba Lagi'),
                       ),
-                      child: Row(
-                        children: [
-                          // Nomor urut
-                          Container(
-                            width: 28, height: 28,
-                            decoration: BoxDecoration(
-                                color: AppTheme.neutral100,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Text('${index + 1}',
-                                  style: const TextStyle(
-                                      fontSize: 12, fontWeight: FontWeight.w700,
-                                      color: AppTheme.neutral500)),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          // Avatar
-                          Container(
-                            width: 42, height: 42,
-                            decoration: BoxDecoration(
-                                color: AppTheme.success.withOpacity(0.12),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                              child: Text(initials,
-                                  style: const TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.w700,
-                                      color: AppTheme.success)),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          // Info
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(mhs.nama,
+                    ],
+                  ),
+                ),
+                data: (list) => RefreshIndicator(
+                  onRefresh: () async =>
+                      ref.refresh(mahasiswaAktifProvider),
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: list.length,
+                    separatorBuilder: (_, __) =>
+                    const SizedBox(height: 8),
+                    itemBuilder: (_, index) {
+                      final post = list[index];
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 12),
+                        decoration: BoxDecoration(
+                          color:        AppTheme.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                              color: AppTheme.neutral100),
+                        ),
+                        child: Row(
+                          children: [
+                            // Nomor urut
+                            Container(
+                              width: 28, height: 28,
+                              decoration: BoxDecoration(
+                                  color: AppTheme.neutral100,
+                                  borderRadius:
+                                  BorderRadius.circular(8)),
+                              child: Center(
+                                child: Text('${index + 1}',
                                     style: const TextStyle(
-                                        fontSize: 14, fontWeight: FontWeight.w600,
-                                        color: AppTheme.neutral900),
-                                    maxLines: 1, overflow: TextOverflow.ellipsis),
-                                const SizedBox(height: 3),
-                                Row(children: [
-                                  Text(mhs.nim,
+                                        fontSize:   12,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppTheme.neutral500)),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            // Avatar
+                            Container(
+                              width: 42, height: 42,
+                              decoration: BoxDecoration(
+                                color: AppTheme.success
+                                    .withOpacity(0.12),
+                                borderRadius:
+                                BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '${post.userId}',
+                                  style: const TextStyle(
+                                      fontSize:   14,
+                                      fontWeight: FontWeight.w700,
+                                      color:      AppTheme.success),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            // Info
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Text(post.title,
                                       style: const TextStyle(
-                                          fontSize: 12, color: AppTheme.neutral500)),
-                                  const Text(' • ',
+                                          fontSize:   13,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppTheme.neutral900),
+                                      maxLines: 1,
+                                      overflow:
+                                      TextOverflow.ellipsis),
+                                  const SizedBox(height: 3),
+                                  Text(post.body,
+                                      style: const TextStyle(
+                                          fontSize: 11,
+                                          color: AppTheme.neutral500),
+                                      maxLines: 2,
+                                      overflow:
+                                      TextOverflow.ellipsis),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            // Badge aktif
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                  color: AppTheme.successLight,
+                                  borderRadius:
+                                  BorderRadius.circular(6)),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.circle,
+                                      size: 6,
+                                      color: AppTheme.success),
+                                  SizedBox(width: 4),
+                                  Text('AKTIF',
                                       style: TextStyle(
-                                          fontSize: 12, color: AppTheme.neutral300)),
-                                  Expanded(
-                                    child: Text(mhs.jurusan,
-                                        style: const TextStyle(
-                                            fontSize: 12, color: AppTheme.neutral500),
-                                        maxLines: 1, overflow: TextOverflow.ellipsis),
-                                  ),
-                                ]),
-                              ],
+                                          fontSize:   10,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppTheme.success)),
+                                ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                          // Badge aktif
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                                color: AppTheme.successLight,
-                                borderRadius: BorderRadius.circular(6)),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.circle,
-                                    size: 6, color: AppTheme.success),
-                                SizedBox(width: 4),
-                                Text('AKTIF',
-                                    style: TextStyle(
-                                        fontSize: 10, fontWeight: FontWeight.w700,
-                                        color: AppTheme.success)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

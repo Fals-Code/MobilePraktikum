@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import '../../data/models/mahasiswa_model.dart';
 
 class ModernMahasiswaCard extends StatefulWidget {
-  final MahasiswaModel mahasiswa;
-  final VoidCallback? onTap;
-  final List<Color> gradientColors;
+  final MahasiswaModel  mahasiswa;
+  final VoidCallback?   onTap;
+  final List<Color>     gradientColors;
 
   const ModernMahasiswaCard({
-    Key? key,
+    super.key,
     required this.mahasiswa,
     this.onTap,
     required this.gradientColors,
-  }) : super(key: key);
+  });
 
   @override
   State<ModernMahasiswaCard> createState() => _ModernMahasiswaCardState();
@@ -20,7 +20,7 @@ class ModernMahasiswaCard extends StatefulWidget {
 class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
+  late Animation<double>   _scaleAnimation;
 
   @override
   void initState() {
@@ -54,45 +54,48 @@ class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
         child: Container(
           margin: const EdgeInsets.only(bottom: 16),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color:        Colors.white,
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: widget.gradientColors[0].withOpacity(0.15),
+                color: widget.gradientColors[0].withValues(alpha: 0.15),
                 blurRadius: 15,
-                offset: const Offset(0, 8),
+                offset:     const Offset(0, 8),
               ),
             ],
           ),
           child: Row(
             children: [
-              // Bagian Kiri (Avatar dengan Gradien)
+              // ── Avatar dengan Gradien ──
               Container(
-                width: 100,
+                width:  100,
                 height: 120,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                    begin:  Alignment.topLeft,
+                    end:    Alignment.bottomRight,
                     colors: widget.gradientColors,
                   ),
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
+                    topLeft:    Radius.circular(20),
                     bottomLeft: Radius.circular(20),
                   ),
                 ),
                 child: Center(
                   child: Text(
-                    widget.mahasiswa.nama.substring(0, 1).toUpperCase(),
+                    widget.mahasiswa.name
+                        .substring(0, 1)
+                        .toUpperCase(),
                     style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 36,
+                      color:      Colors.white,
+                      fontSize:   36,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              // Bagian Kanan (Detail Informasi)
+
+              // ── Detail Informasi ──
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -100,21 +103,30 @@ class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.mahasiswa.nama,
+                        widget.mahasiswa.name,
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontSize:   18,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color:      Colors.black87,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
-                      _buildInfoRow(Icons.badge_outlined, widget.mahasiswa.nim),
+                      _buildInfoRow(
+                        Icons.email_outlined,
+                        widget.mahasiswa.email,
+                      ),
                       const SizedBox(height: 4),
-                      _buildInfoRow(Icons.school_outlined, widget.mahasiswa.jurusan),
+                      _buildInfoRow(
+                        Icons.comment_outlined,
+                        'Post #${widget.mahasiswa.postId}',
+                      ),
                       const SizedBox(height: 4),
-                      _buildInfoRow(Icons.calendar_today_outlined, 'Angkatan ${widget.mahasiswa.angkatan}'),
+                      _buildInfoRow(
+                        Icons.notes_outlined,
+                        widget.mahasiswa.body,
+                      ),
                     ],
                   ),
                 ),
@@ -135,7 +147,7 @@ class _ModernMahasiswaCardState extends State<ModernMahasiswaCard>
           child: Text(
             text,
             style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-            maxLines: 1,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
         ),
