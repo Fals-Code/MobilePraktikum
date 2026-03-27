@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../dashboard/presentation/page/dashboard_page.dart';
 import '../../../mahasiswa/presentation/pages/mahasiswa_page.dart';
-import '../../../mahasiswa/presentation/pages/mahasiswa_aktif_page.dart';
+import '../../../mahasiswa/presentation/pages/mahasiswa_local_page.dart';
 import '../../../dosen/presentation/page/dosen_page.dart';
 import '../../../profile/presentation/page/profile_page.dart';
 
@@ -19,7 +19,7 @@ class HomePage extends ConsumerWidget {
     const pages = <Widget>[
       DashboardPage(),
       MahasiswaPage(),
-      MahasiswaAktifPage(),
+      MahasiswaLocalPage(),   // ← ganti MahasiswaAktifPage
       DosenPage(),
       ProfilePage(),
     ];
@@ -42,7 +42,8 @@ class HomePage extends ConsumerWidget {
           unselectedItemColor: AppTheme.neutral500,
           selectedFontSize: 11,
           unselectedFontSize: 11,
-          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
+          selectedLabelStyle:
+          const TextStyle(fontWeight: FontWeight.w700),
           elevation: 0,
           items: const [
             BottomNavigationBarItem(
@@ -55,9 +56,9 @@ class HomePage extends ConsumerWidget {
               label: 'Mahasiswa',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.how_to_reg_outlined),
-              activeIcon: Icon(Icons.how_to_reg_rounded),
-              label: 'Aktif',
+              icon: Icon(Icons.person_pin_outlined),      // ← ikon baru
+              activeIcon: Icon(Icons.person_pin_rounded),
+              label: 'Mhs Local',                         // ← label baru
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.school_outlined),
